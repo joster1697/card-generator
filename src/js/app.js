@@ -33,14 +33,14 @@ function render(variables = {}) {
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
+          <h1>${variables.name} ${variables.lastname}</h1>
+          <h2>${variables.role}</h2>
+          <h3>${variables.city}, ${variables.country}</h3>
+          <ul class="${variables.socialMediaPosition}">
+            <li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>
           </ul>
         </div>
     `;
@@ -61,14 +61,14 @@ window.onload = function() {
     socialMediaPosition: "position-left",
     // social media usernames
     twitter: null,
-    github: "alesanchezr",
+    github: null,
     linkedin: null,
     instagram: null,
-    name: null,
-    lastname: null,
-    role: null,
-    country: null,
-    city: null
+    name: "name",
+    lastname: "lastname",
+    role: "role",
+    country: "country",
+    city: "city"
   };
   render(window.variables); //render the card for the first time
 
@@ -77,6 +77,7 @@ window.onload = function() {
       // <- add a listener to every input
       const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
       let values = {};
+      console.log(values);
       values[attribute] =
         this.value == "" || this.value == "null"
           ? null
@@ -85,6 +86,14 @@ window.onload = function() {
           : this.value == "false"
           ? false
           : this.value;
+      render(Object.assign(window.variables, values)); // render again the card with new valus
+    });
+
+    elm.addEventListener("input", function(e) {
+      const text = e.target.getAttribute("for");
+      console.log(text);
+      let values = {};
+      values[text] = this.value;
       render(Object.assign(window.variables, values)); // render again the card with new valus
     });
   });
